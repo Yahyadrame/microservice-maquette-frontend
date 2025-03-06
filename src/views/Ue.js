@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
+import * as ueService from '../services/ueService'; // Import ueService
+
 const Ue = () => {
   const [ues, setUes] = useState([]); // Liste des UE
   const [ueData, setUeData] = useState({ code: '', libelle: '', credit: '', coefficient: '' }); // Données du formulaire
@@ -15,7 +17,7 @@ const Ue = () => {
 
   // Charger la liste des UE
   useEffect(() => {
-    axios.get('http://localhost:8080/api/ues')
+    ueService.getAllUes()
       .then(response => setUes(response.data))
       .catch(error => console.error("Erreur lors du chargement des UE :", error));
   }, []);
@@ -23,12 +25,7 @@ const Ue = () => {
   // Fonction pour gérer l'ajout d'un nouvel UE
   const handleAddUe = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/api/ues', { 
-      code: ueData.code,
-      libelle: ueData.libelle,
-      credit: ueData.credit,
-      coefficient: ueData.coefficient
-    })
+    ueService.addUe(ueData)
       .then(response => {
         setUes([...ues, response.data]);
         setShowModal(false);
@@ -45,12 +42,7 @@ const Ue = () => {
       return;
     }
 
-    axios.put(`http://localhost:8080/api/ues/${editingUe.id}`, { 
-      code: ueData.code,
-      libelle: ueData.libelle,
-      credit: ueData.credit,
-      coefficient: ueData.coefficient
-    })
+    ueService.updateUe(editingUe.id, ueData)
       .then(response => {
         const updatedUes = ues.map(ue => ue.id === editingUe.id ? response.data : ue);
         setUes(updatedUes);
@@ -63,7 +55,7 @@ const Ue = () => {
 
   // Fonction pour gérer la suppression d'un UE
   const handleDeleteUe = () => {
-    axios.delete(`http://localhost:8080/api/ues/${deletingUeId}`)
+    ueService.deleteUe(deletingUeId)
       .then(() => {
         setUes(ues.filter(ue => ue.id !== deletingUeId));
         setShowDeleteModal(false);
@@ -92,11 +84,11 @@ const Ue = () => {
 
   // Fonction pour activer ou désactiver une UE
   const handleActivate = (id) => {
-    axios.put(`http://localhost:8080/api/ues/${id}/activer`)
+    ueService.toggleActivation(id)
       .then(response => {
         alert(response.data); // Affiche le message de succès
         // Mettre à jour la liste des UEs
-        setUes(ues.map(ue => ue.id === id ? { ...ue, active: !ue.active } : ue));
+        setUes(ues.map(ue => ue.id === id ? { ...ue, actif: !ue.actif } : ue));
       })
       .catch(error => {
         console.error("Erreur lors de l'activation/désactivation de l'UE :", error);
@@ -106,7 +98,7 @@ const Ue = () => {
 
   // Fonction pour archiver ou désarchiver une UE
   const handleArchive = (id) => {
-    axios.put(`http://localhost:8080/api/ues/${id}/archiver`)
+    ueService.toggleArchive(id)
       .then(response => {
         alert(response.data); // Affiche le message de succès
         // Mettre à jour la liste des UEs
@@ -155,10 +147,10 @@ const Ue = () => {
 
                   {/* Bouton pour activer ou désactiver l'UE */}
                   <button 
-                    className={`btn btn-${ue.active ? 'warning' : 'success'} btn-sm`} 
+                    className={`btn btn-${ue.actif ? 'warning' : 'success'} btn-sm`} 
                     onClick={() => handleActivate(ue.id)}
                   >
-                    {ue.active ? 'Désactiver' : 'Activer'}
+                    {ue.actif ? 'Désactiver' : 'Activer'}
                   </button>
 
                   {/* Bouton pour archiver ou désarchiver l'UE */}
@@ -192,7 +184,12 @@ const Ue = () => {
           Suivant
         </button>
       </div>
-
+       
+       <div className='container'>
+          <Link to="/" className="btn btn-primary mt-3">
+              Retourner à l'accueil
+          </Link>
+       </div>
       {/* Modale pour ajouter un UE */}
       {showModal && (
         <div className="modal fade show" style={{ display: 'block' }} id="form_Ajouter_UE" role="dialog" aria-labelledby="formAjouterUETitle" aria-hidden="true">
@@ -222,22 +219,43 @@ const Ue = () => {
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Annuler</button>
-                  <button type="submit" className="btn btn-primary">Ajouter</button>
+                  <button type="submit" className="btn btn-success">Ajouter</button>
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Fermer</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
       )}
-
-      {/* Modale pour modifier un UE */}
-      {showEditModal && editingUe && (
-        <div className="modal fade show" style={{ display: 'block' }} role="dialog" aria-labelledby="formEditUETitle" aria-hidden="true">
+      
+      {/* Modale pour supprimer une UE */}
+      {showDeleteModal && (
+        <div className="modal fade show" style={{ display: 'block' }} role="dialog" aria-labelledby="formDeleteTitle" aria-hidden="true">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h4 className="modal-title">Modifier un UE</h4>
+                <h4 className="modal-title">Supprimer l'UE</h4>
+                <button type="button" className="close" onClick={() => setShowDeleteModal(false)}>&times;</button>
+              </div>
+              <div className="modal-body">
+                Êtes-vous sûr de vouloir supprimer cette UE ?
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-danger" onClick={handleDeleteUe}>Supprimer</button>
+                <button className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>Annuler</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modale pour modifier une UE */}
+      {showEditModal && (
+        <div className="modal fade show" style={{ display: 'block' }} id="form_Modifier_UE" role="dialog" aria-labelledby="formModifierUETitle" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title">Modifier l'UE</h4>
                 <button type="button" className="close" onClick={() => setShowEditModal(false)}>&times;</button>
               </div>
               <form onSubmit={handleEditUe}>
@@ -260,31 +278,10 @@ const Ue = () => {
                   </div>
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Annuler</button>
-                  <button type="submit" className="btn btn-primary">Enregistrer</button>
+                  <button type="submit" className="btn btn-primary">Modifier</button>
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Fermer</button>
                 </div>
               </form>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modale de suppression */}
-      {showDeleteModal && (
-        <div className="modal fade show" style={{ display: 'block' }} role="dialog" aria-labelledby="formDeleteUETitle" aria-hidden="true">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h4 className="modal-title">Supprimer l'UE</h4>
-                <button type="button" className="close" onClick={() => setShowDeleteModal(false)}>&times;</button>
-              </div>
-              <div className="modal-body">
-                <p>Êtes-vous sûr de vouloir supprimer cet UE ?</p>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>Annuler</button>
-                <button type="button" className="btn btn-danger" onClick={handleDeleteUe}>Supprimer</button>
-              </div>
             </div>
           </div>
         </div>

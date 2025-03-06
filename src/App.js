@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faClipboardList, faChalkboardTeacher, faUniversity, faWrench } from '@fortawesome/free-solid-svg-icons';
+import { faGraduationCap, faClipboardList, faChalkboardTeacher, faUniversity, faWrench,faSchool } from '@fortawesome/free-solid-svg-icons';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -28,7 +28,7 @@ const App = () => {
                             />
                             <h3 style={styles.cardTitle}>Maquette</h3>
                             <p style={styles.cardText}>Créez et gérez les maquettes de formation pour les étudiants.</p>
-                            <Link to="/Maquette" style={styles.link}>Accéder</Link>
+                            <Link to="/liste" style={styles.link}>Accéder</Link>
                         </div>
                         <div style={styles.card}>
                             <FontAwesomeIcon 
@@ -65,6 +65,15 @@ const App = () => {
                             <h3 style={styles.cardTitle}>Élément Constitutif (EC)</h3>
                             <p style={styles.cardText}>Ajoutez et gérez les éléments constitutifs des UE.</p>
                             <Link to="/Ec" style={styles.link}>Accéder</Link>
+                        </div>
+                        <div style={styles.card}>
+                            <FontAwesomeIcon 
+                                icon={faSchool}
+                                style={styles.cardIcon}
+                            />
+                            <h3 style={styles.cardTitle}>Enseignements</h3>
+                            <p style={styles.cardText}>Configurez et gérez les Enseignements proposées par l'université.</p>
+                            <Link to="/Enseignement" style={styles.link}>Accéder</Link>
                         </div>
                     </div>
                 </section>
