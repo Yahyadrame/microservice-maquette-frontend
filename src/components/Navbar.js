@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; 
 import 'bootstrap/dist/css/bootstrap.min.css'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome, faChalkboard, faBook, faUserGraduate, faListAlt } from '@fortawesome/free-solid-svg-icons'; // Icônes ajoutées
 import logo from '../assets/Logo_uasz-bg-white.jpg'; // Remplacer avec votre chemin d'image
 
 const Navbar = () => {
@@ -8,11 +10,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg" style={styles.navbar}>
       <div className="container-fluid" style={styles.containerFluid}>
         <div className="navbar-brand" style={styles.brand}>
-          <img
-            src={logo}
-            alt="Logo"
-            style={styles.logo}
-          />
+          <img src={logo} alt="Logo" style={styles.logo} />
           Université Assane SECK
         </div>
         <button
@@ -30,17 +28,17 @@ const Navbar = () => {
           <ul className="navbar-nav" style={styles.navItems}> 
             <li className="nav-item" style={styles.navItem}>
               <Link className="nav-link" to="/Formation" style={styles.navLink}>
-                Formation
+                <FontAwesomeIcon icon={faUserGraduate} style={styles.icon} /> Formation
               </Link>
             </li>
             <li className="nav-item" style={styles.navItem}>
               <Link className="nav-link" to="/Classe" style={styles.navLink}>
-                Classe
+                <FontAwesomeIcon icon={faChalkboard} style={styles.icon} /> Classe
               </Link>
             </li>
             <li className="nav-item" style={styles.navItem}>
               <Link className="nav-link" to="/liste" style={styles.navLink}>
-                Maquettes
+                <FontAwesomeIcon icon={faListAlt} style={styles.icon} /> Maquettes
               </Link>
             </li>
             <li className="nav-item dropdown" style={styles.navItem}>
@@ -52,7 +50,7 @@ const Navbar = () => {
                 aria-expanded="false"
                 style={styles.navLink}
               >
-                UE
+                <FontAwesomeIcon icon={faBook} style={styles.icon} /> UE
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -79,18 +77,18 @@ const styles = {
     backgroundColor: '#00B4D8', // Même couleur que le footer
     color: 'white',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', 
-    padding: '8px 20px', // Réduit l'épaisseur et s'adapte à l'écran
+    padding: '8px 20px', 
     position: 'sticky',
     top: 0,
     zIndex: 1000, 
   },
   containerFluid: {
-    paddingLeft: '30px', // Ajout d'un peu de marge à gauche
-    paddingRight: '30px', // Ajout d'un peu de marge à droite
-    maxWidth: '100%', // S'assure que la navbar ne dépasse pas de l'écran
+    paddingLeft: '30px', 
+    paddingRight: '30px', 
+    maxWidth: '100%', 
   },
   logo: {
-    height: '50px', // Réduit la taille du logo
+    height: '50px', 
     width: 'auto',
     marginRight: '15px',
     objectFit: 'contain',
@@ -103,19 +101,24 @@ const styles = {
     alignItems: 'center', 
   },
   navItems: {
-    display: 'flex', // Utilisation de flex pour gérer l'espacement
-    justifyContent: 'center', // Centrer les liens horizontalement
-    width: '100%', // Assure que les liens occupent toute la largeur
-    flexWrap: 'wrap', // Permet aux liens de se réorganiser si nécessaire
+    display: 'flex', 
+    justifyContent: 'center', 
+    width: '100%', 
+    flexWrap: 'wrap', 
   },
   navItem: {
-    margin: '0 10px', // Espacement entre les éléments de la navbar
+    margin: '0 10px', 
   },
   navLink: {
     color: '#fff',
     fontWeight: '500',
     transition: 'color 0.3s ease', 
-    padding: '8px 15px', // Espacement entre les liens
+    padding: '8px 15px', 
+    display: 'flex',
+    alignItems: 'center', 
+  },
+  icon: {
+    marginRight: '8px',
   },
   dropdownItem: {
     color: '#333',

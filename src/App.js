@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGraduationCap, faClipboardList, faChalkboardTeacher, faUniversity, faWrench,faSchool } from '@fortawesome/free-solid-svg-icons';
+import { faGraduationCap, faClipboardList, faChalkboardTeacher, faUniversity, faWrench, faSchool } from '@fortawesome/free-solid-svg-icons';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -22,55 +22,37 @@ const App = () => {
                     <h2 style={styles.sectionTitle}>Options de Gestion</h2>
                     <div style={styles.cardContainer}>
                         <div style={styles.card}>
-                            <FontAwesomeIcon 
-                                icon={faGraduationCap} 
-                                style={styles.cardIcon}
-                            />
+                            <FontAwesomeIcon icon={faGraduationCap} style={styles.cardIcon} />
                             <h3 style={styles.cardTitle}>Maquette</h3>
                             <p style={styles.cardText}>Créez et gérez les maquettes de formation pour les étudiants.</p>
                             <Link to="/liste" style={styles.link}>Accéder</Link>
                         </div>
                         <div style={styles.card}>
-                            <FontAwesomeIcon 
-                                icon={faClipboardList} 
-                                style={styles.cardIcon}
-                            />
+                            <FontAwesomeIcon icon={faClipboardList} style={styles.cardIcon} />
                             <h3 style={styles.cardTitle}>Classes</h3>
                             <p style={styles.cardText}>Organisez et gérez les classes et groupes d'étudiants.</p>
                             <Link to="/Classe" style={styles.link}>Accéder</Link>
                         </div>
                         <div style={styles.card}>
-                            <FontAwesomeIcon 
-                                icon={faChalkboardTeacher} 
-                                style={styles.cardIcon}
-                            />
+                            <FontAwesomeIcon icon={faChalkboardTeacher} style={styles.cardIcon} />
                             <h3 style={styles.cardTitle}>Formations</h3>
                             <p style={styles.cardText}>Configurez et gérez les formations proposées par l'université.</p>
                             <Link to="/Formation" style={styles.link}>Accéder</Link>
                         </div>
                         <div style={styles.card}>
-                            <FontAwesomeIcon 
-                                icon={faUniversity} 
-                                style={styles.cardIcon}
-                            />
+                            <FontAwesomeIcon icon={faUniversity} style={styles.cardIcon} />
                             <h3 style={styles.cardTitle}>Unité d'Enseignement (UE)</h3>
                             <p style={styles.cardText}>Gérez les différentes unités d'enseignement pour chaque formation.</p>
                             <Link to="/Ue" style={styles.link}>Accéder</Link>
                         </div>
                         <div style={styles.card}>
-                            <FontAwesomeIcon 
-                                icon={faWrench} 
-                                style={styles.cardIcon}
-                            />
+                            <FontAwesomeIcon icon={faWrench} style={styles.cardIcon} />
                             <h3 style={styles.cardTitle}>Élément Constitutif (EC)</h3>
                             <p style={styles.cardText}>Ajoutez et gérez les éléments constitutifs des UE.</p>
                             <Link to="/Ec" style={styles.link}>Accéder</Link>
                         </div>
                         <div style={styles.card}>
-                            <FontAwesomeIcon 
-                                icon={faSchool}
-                                style={styles.cardIcon}
-                            />
+                            <FontAwesomeIcon icon={faSchool} style={styles.cardIcon} />
                             <h3 style={styles.cardTitle}>Enseignements</h3>
                             <p style={styles.cardText}>Configurez et gérez les Enseignements proposées par l'université.</p>
                             <Link to="/Enseignement" style={styles.link}>Accéder</Link>
@@ -165,14 +147,6 @@ const styles = {
         borderRadius: '5px',
         border: '2px solid #0099CC',
         transition: 'background-color 0.3s, color 0.3s',
-    },
-    linkHover: {
-        backgroundColor: '#0099CC',
-        color: 'white',
-    },
-    cardHover: {
-        transform: 'scale(1.05)',
-        boxShadow: '0 6px 18px rgba(0, 0, 0, 0.2)',
     },
 };
 
