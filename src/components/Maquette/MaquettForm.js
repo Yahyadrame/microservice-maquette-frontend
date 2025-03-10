@@ -26,6 +26,7 @@ const MaquetteForm = () => {
         if (id) {
             try {
                 const data = await getMaquetteById(id);
+                console.log('Data récupérée pour la maquette:', data);  // Ajout de logs pour vérifier
                 if (data) {
                     setMaquette({
                         nom: data.nom || '',
@@ -89,6 +90,8 @@ const MaquetteForm = () => {
                 uesIds: maquette.uesIds.map(Number), // Conversion des UEs en nombres
             };
 
+            console.log('Données envoyées au backend:', formattedData);  // Ajout de logs pour vérifier
+
             if (id) {
                 // Si `id` existe, mise à jour de la maquette
                 formattedData.archive = maquette.archive;
@@ -102,6 +105,10 @@ const MaquetteForm = () => {
             console.error("Erreur lors de l'enregistrement de la maquette", error);
         }
     };
+
+    useEffect(() => {
+        console.log('Maquette actuelle:', maquette); // Log de l'état actuel de la maquette pour déboguer
+    }, [maquette]);
 
     return (
         <div className="maquette-form">

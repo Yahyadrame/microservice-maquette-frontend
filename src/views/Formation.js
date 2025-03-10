@@ -182,15 +182,14 @@ const Formation = () => {
           Suivant
         </button>
       </div>
-        
 
-        {/* pour le button retour */}
-        {/* pour le button retour */}
-        <div className='container'>
-            <Link to="/" className="btn btn-primary mt-3">
-             Retourner à l'accueil
-            </Link>
-        </div>
+      {/* Bouton retour */}
+      <div className='container'>
+        <Link to="/" className="btn btn-primary mt-3">
+          Retourner à l'accueil
+        </Link>
+      </div>
+
       {/* Modale pour ajouter une Formation */}
       {showModal && (
         <div className="modal fade show" style={{ display: 'block' }} id="form_Ajouter_Formation" role="dialog" aria-labelledby="formAjouterFormationTitle" aria-hidden="true">
@@ -229,7 +228,64 @@ const Formation = () => {
         </div>
       )}
 
-      {/* Similar Modal for Delete and Edit goes here */}
+      {/* Modale pour modifier une Formation */}
+      {showEditModal && (
+        <div className="modal fade show" style={{ display: 'block' }} id="form_Modifier_Formation" role="dialog" aria-labelledby="formModifierFormationTitle" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title">Modifier une Formation</h4>
+                <button type="button" className="close" onClick={() => setShowEditModal(false)}>&times;</button>
+              </div>
+              <form onSubmit={handleEditFormation}>
+                <div className="modal-body">
+                  <div className="form-group">
+                    <label>Nom</label>
+                    <input type="text" className="form-control" value={formationData.nom} onChange={(e) => setFormationData({ ...formationData, nom: e.target.value })} />
+                  </div>
+                  <div className="form-group">
+                    <label>Durée</label>
+                    <input type="number" className="form-control" value={formationData.duree} onChange={(e) => setFormationData({ ...formationData, duree: e.target.value })} />
+                  </div>
+                  <div className="form-group">
+                    <label>Description</label>
+                    <textarea className="form-control" value={formationData.description} onChange={(e) => setFormationData({ ...formationData, description: e.target.value })}></textarea>
+                  </div>
+                  <div className="form-group">
+                    <label>Niveau</label>
+                    <input type="text" className="form-control" value={formationData.niveau} onChange={(e) => setFormationData({ ...formationData, niveau: e.target.value })} />
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button type="submit" className="btn btn-success">Modifier</button>
+                  <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Fermer</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modale pour supprimer une Formation */}
+      {showDeleteModal && (
+        <div className="modal fade show" style={{ display: 'block' }} id="form_Supprimer_Formation" role="dialog" aria-labelledby="formSupprimerFormationTitle" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h4 className="modal-title">Confirmer la Suppression</h4>
+                <button type="button" className="close" onClick={() => setShowDeleteModal(false)}>&times;</button>
+              </div>
+              <div className="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer cette formation ?</p>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-danger" onClick={handleDeleteFormation}>Supprimer</button>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowDeleteModal(false)}>Annuler</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
